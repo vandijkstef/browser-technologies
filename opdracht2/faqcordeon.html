@@ -45,28 +45,42 @@
 		
 	</body>
 	<style>
+		:root {
+			--light: #F9F4D3; /* #FCFFF5 */
+			--accentLight: #CFD2AD; /* #CBDBD7 */
+			--med: #727448; /* #91AAB4 */
+			--accentDark: #515451; /* #3E606F */
+			--dark: #262626; /* #193441 */
+		}
+		/* Basic CSS */
+		/* Colors, margins, padding */
 		* {
 			box-sizing: border-box;
 		}
 		body {
 			font-size: 1.2em;
-			font-family: Ubuntu, Arial, Helvetica, sans-serif
+			font-family: Ubuntu, Arial, Helvetica, sans-serif;
+			background-color: #FCFFF5; 
+			background-color: var(--light);	
 		}
 		ul {
 			list-style: none;
 			padding: 0;
 			margin: 0;
-			background-color: skyblue;
 		}
 		ul ul {
 			margin-left: 3em;
 		}
 		li {
-			background-color: black;
+			/* background-color: #91AAB4;
+			background-color: var(--med); */
 		}
 		li li {
-			background-color: orchid;
-			border: 1px solid red;
+			background-color: #193441;
+			background-color: var(--dark);
+			color: #FCFFF5;
+			color: var(--light);
+			margin-bottom: .2em;
 		}
 		p {
 			padding: .6em;
@@ -74,19 +88,26 @@
 			margin: 0;
 		}
 		.title {
-			background-color: forestgreen;
+			background-color: #3E606F;
+			background-color: var(--accentDark);
+			color: #FCFFF5;
+			color: var(--light);
 			font-size: 1.4em;
 			box-shadow: 0 0.2em 0.2em -.1em rgba(0, 0, 0, 0.6);
 			position: relative;
 		}
 		.question {
-			/* background-color: red; */
 			font-weight: bold;
 		}
 		.answer {
-			/* background-color: yellow; */
 			font-style: italic;
 		}
+
+		/* CSS enhancements - NO JS */
+
+		/* CSS enhancements - JS enabled */
+
+		
 	</style>
 	<script>
 	
