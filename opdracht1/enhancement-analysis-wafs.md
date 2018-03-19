@@ -15,8 +15,6 @@ The site currently shows a loading animation, even though there isn't actually s
 ## Color
 Colors have been tested using **Sim Daltonism**. The used colors provide enough contrast to be functional.
 
-## Network speed limitations
-
 
 ## Cookies
 The site isn't using any cookies.
@@ -26,3 +24,6 @@ localStorage is being used to cache API data, and isn't in the core of the syste
 
 ## Keyboard only navigation
 The site is a simple single column, containing some sections with links or lists. They are tabbable, though the focus state is still browser default.
+
+
+Aanvullen DOCS, hoe, screenshots etc. Kopje screenreader. Trycatch op de localstorage
