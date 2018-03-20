@@ -2,9 +2,9 @@
 
 ## Sketches
 This image shows a fully collapsed (JS and/or new CSS available). The second sketch is half collapsed version.
-![Schets](img/IMG_2011.jpg)
+![Schets](img/IMG_2011.JPG?raw=true)
 This image shows the fully uncollapsed FAQ. Note, the arrows show interaction and should only be visible when that interaction is possible
-![Schets](img/IMG_2012.jpg)
+![Schets](img/IMG_2012.JPG?raw=true)
 
 ## Used Techniques
 This section will describe the main steps taken in progressively enhancing the module. 
@@ -26,7 +26,7 @@ To safely use CSS variables, you should use a cascading fallback. Older browsers
 ```
 
 This image shows the fallback. Left IE without CSS variable support, right Chrome with CSS variable support. Note: The used colors are different on purpose.
-![cssvars](img/cssvars.png)
+![cssvars](img/cssvars.PNG?raw=true)
 
 ### Folding without JS
 To fold the FAQ without JS I will make use of the :target selector. This will be applied to the questions, the subjects won't be able to fold. Another limitation is that only one question can be unfolded at the time. In CSS I will only fold the questions if :target is supported, [which comes down to not folding at all on non-js versions of IE <= 8](https://www.quirksmode.org/css/selectors/).
