@@ -25,3 +25,6 @@ To safely use CSS variables, you should use a cascading fallback. Older browsers
 
 This image shows the fallback. Left IE without CSS variable support, right Chrome with CSS variable support. Note: The used colors are different on purpose.
 ![cssvars](img/cssvars.png)
+
+### JS Folding
+Upon loading the page, I will add a class to the outer element (ul), so style rules can make the whole thing collapse.
