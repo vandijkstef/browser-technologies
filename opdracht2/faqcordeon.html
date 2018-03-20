@@ -6,7 +6,7 @@
 		<title>Faqcordeon</title>
 	</head>
 	<body>
-		<ul>
+		<ul class="no-js">
 			<li id="1_0">
 				<p class="title">WAFS</p>
 				<ul>
@@ -72,8 +72,8 @@
 			margin-left: 3em;
 		}
 		li {
-			/* background-color: #91AAB4;
-			background-color: var(--med); */
+			color: #FCFFF5;
+			color: var(--light);
 		}
 		li li {
 			background-color: #193441;
@@ -90,11 +90,10 @@
 		.title {
 			background-color: #3E606F;
 			background-color: var(--accentDark);
-			color: #FCFFF5;
-			color: var(--light);
 			font-size: 1.4em;
 			box-shadow: 0 0.2em 0.2em -.1em rgba(0, 0, 0, 0.6);
 			position: relative;
+			transition: .2s;
 		}
 		.question {
 			font-weight: bold;
@@ -104,14 +103,125 @@
 		}
 
 		/* CSS enhancements - NO JS */
+		@supports (li:target) {
+			body {
+				background-color: red;
+			}
+		}
 
 		/* CSS enhancements - JS enabled */
-
-		*:target, *:focus-within {
-			background-color: red;
+		.faq-interactive li {
+			position: relative;
+			cursor: pointer;
+		}
+		.faq-interactive li::after {
+			content: ">";
+			position: absolute;
+			right: 1em;
+			top: 1em;
+		}
+		.faq-interactive li:hover .title {
+			background-color: #91AAB4;
+			background-color: var(--med);
+		}
+		.faq-interactive ul li {
+			height: 0;
+			overflow: hidden;
 		}
 	</style>
+	<!-- Disable folding on old IE versions -->
+	<!--[if lte IE 8]>
+	<style>
+		body {
+			background-color: tomato;
+		}
+	</style>
+	<![endif]-->
 	<script>
-	
+		window.addEventListener('DOMContentLoaded', function() {
+			SetFaq('body > ul');
+		});
+
+		// Make the FAQ interactive
+		function SetFaq(selector) {
+			var faqOuter = getElement(selector);
+			removeClass(faqOuter, 'no-js');
+			// addClass(faqOuter, 'faq-interactive');
+			var items = getElements('li');
+			SetItems(items);
+		}
+
+		// Add a click handler to the list items
+		function SetItems(items) {
+			for (var i = 0; i < items.length; i++) {
+				AddEvent(items[i], HandleClick);
+			}
+		}
+
+		function HandleClick(e) {
+			toggleClass(e.target.parentElement, 'open');
+		}
+
+		// Get an element from the DOM
+		function getElement(selector) {
+			if ('querySelector' in document) {
+				return document.querySelector(selector);
+			} else {
+				console.warn('not implemented');
+				// getElementsByClassName()
+				// getElementById()
+			}
+		}
+
+		// Get elements from the DOM
+		function getElements(selector) {
+			if ('querySelectorAll' in document) {
+				return document.querySelectorAll(selector);
+			} else {
+				console.warn('not implemented');
+				// getElementsByClassName()
+			}
+		}
+
+		// Add a class to an element
+		function addClass(element, newClass) {
+			if ('classList' in element) {
+				return element.classList.add(newClass);
+			} else {
+				console.warn('not implemented');
+			}
+		}
+
+		// Remove a class to an element
+		function removeClass(element, newClass) {
+			if ('classList' in element) {
+				return element.classList.remove(newClass);
+			} else {
+				console.warn('not implemented');
+			}
+		}
+
+		// Toggle a class to an element
+		function toggleClass(element, newClass) {
+			if ('classList' in element) {
+				return element.classList.toggle(newClass);
+			} else {
+				console.warn('not implemented');
+			}
+			// if has class...
+			// Add or remove..
+		}
+
+		// Add an event to an element
+		function AddEvent(element, event) {
+			if ('addEventListener' in element) {
+				element.addEventListener('click', event);
+			} else if ('onclick' in element) {
+				element.onclick = event;
+			} else {
+				console.warn('not implented');
+			}
+		}
+
 	</script>
 </html>
