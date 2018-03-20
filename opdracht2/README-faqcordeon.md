@@ -23,3 +23,5 @@ To safely use CSS variables, you should use a cascading fallback. Older browsers
 }
 ```
 
+This image shows the fallback. Left IE without CSS variable support, right Chrome with CSS variable support. Note: The used colors are different on purpose.
+![cssvars](img/cssvars.png)
