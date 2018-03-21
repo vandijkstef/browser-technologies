@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Picture Picker</title>
+	</head>
+	<body>
+		<h1>Picture picker</h1>
+	</body>
+	<style>
+		:root {
+			--light: #F9F4D3; /* #FCFFF5 */
+			--accentLight: #CFD2AD; /* #CBDBD7 */
+			--med: #727448; /* #91AAB4 */
+			--accentDark: #515451; /* #3E606F */
+			--dark: #262626; /* #193441 */
+		}
+		/* Basic CSS */
+		/* Colors, margins, padding */
+		* {
+			box-sizing: border-box;
+		}
+		body {
+			font-size: 1.2em;
+			font-family: Ubuntu, Arial, Helvetica, sans-serif;
+			background-color: #FCFFF5; 
+			background-color: var(--light);	
+		}
+
+		@supports (display:block) { /* Will work in every browser but IE */
+			
+		}
+
+	</style>
+	<!-- Disable folding on old IE versions -->
+	<!--[if lte IE 8]>
+	<style>
+		body {
+			background-color: #CBDBD7; // Test line to know we are in LTE8 mode
+		}
+	</style>
+	<![endif]-->
+	<script>
+		window.addEventListener('DOMContentLoaded', function() {
+			
+		});
+	</script>
+</html>

@@ -109,31 +109,44 @@
 			}
 		}
 
-		/* CSS enhancements - JS enabled */
-		.faq-interactive li {
-			position: relative;
-			cursor: pointer;
+		@supports (display:block) { /* Will work in every browser but IE */
+			/* CSS enhancements - JS enabled */
+			.faq-interactive li {
+				position: relative;
+				cursor: pointer;
+			}
+			.faq-interactive li::after {
+				content: ">";
+				position: absolute;
+				right: 1em;
+				top: 1em;
+			}
+			.faq-interactive li .title:hover {
+				background-color: #91AAB4;
+				background-color: var(--med);
+			}
+			.faq-interactive ul li {
+				height: 0;
+				overflow: hidden;
+				transition: .4s;
+			}
+			.faq-interactive .answer {
+				display: none;
+			}
+			.faq-interactive li.open > .answer {
+				display: inline;
+			}
+			.faq-interactive li.open ul li {
+				height: auto;
+			}
 		}
-		.faq-interactive li::after {
-			content: ">";
-			position: absolute;
-			right: 1em;
-			top: 1em;
-		}
-		.faq-interactive li:hover .title {
-			background-color: #91AAB4;
-			background-color: var(--med);
-		}
-		.faq-interactive ul li {
-			height: 0;
-			overflow: hidden;
-		}
+
 	</style>
 	<!-- Disable folding on old IE versions -->
 	<!--[if lte IE 8]>
 	<style>
 		body {
-			background-color: tomato;
+			background-color: #CBDBD7; // Test line to know we are in LTE8 mode
 		}
 	</style>
 	<![endif]-->
@@ -146,7 +159,7 @@
 		function SetFaq(selector) {
 			var faqOuter = getElement(selector);
 			removeClass(faqOuter, 'no-js');
-			// addClass(faqOuter, 'faq-interactive');
+			addClass(faqOuter, 'faq-interactive');
 			var items = getElements('li');
 			SetItems(items);
 		}
@@ -159,7 +172,10 @@
 		}
 
 		function HandleClick(e) {
+			console.log('click');
+			console.log(e.target);
 			toggleClass(e.target.parentElement, 'open');
+			event.stopPropagation();
 		}
 
 		// Get an element from the DOM
