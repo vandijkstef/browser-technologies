@@ -140,9 +140,7 @@
 				height: auto;
 			}
 		}
-
 	</style>
-	<!-- Disable folding on old IE versions -->
 	<!--[if lte IE 8]>
 	<style>
 		body {
@@ -152,16 +150,19 @@
 	<![endif]-->
 	<script>
 		window.addEventListener('DOMContentLoaded', function() {
-			SetFaq('body > ul');
+			SetFaq('.no-js'); // body > ul won't fall back if querySelector isn't available
 		});
 
 		// Make the FAQ interactive
 		function SetFaq(selector) {
 			var faqOuter = getElement(selector);
-			removeClass(faqOuter, 'no-js');
-			addClass(faqOuter, 'faq-interactive');
-			var items = getElements('li');
-			SetItems(items);
+			console.log(containsClass(faqOuter, 'no-js'));
+			if (faqOuter !== null) {
+				removeClass(faqOuter, 'no-js');
+				addClass(faqOuter, 'faq-interactive');
+				var items = getElements('li');
+				SetItems(items);
+			}
 		}
 
 		// Add a click handler to the list items
@@ -172,8 +173,6 @@
 		}
 
 		function HandleClick(e) {
-			console.log('click');
-			console.log(e.target);
 			toggleClass(e.target.parentElement, 'open');
 			event.stopPropagation();
 		}
@@ -183,9 +182,16 @@
 			if ('querySelector' in document) {
 				return document.querySelector(selector);
 			} else {
-				console.warn('not implemented');
-				// getElementsByClassName()
-				// getElementById()
+				var identifier = selector[0];
+				selector = selector.substring(1);
+				if (identifier === '.' && 'getElementsByClassName' in document) {
+					return document.getElementsByClassName(selector)[0];
+				} else if (identifier === '#' && 'getElementById' in document) {
+				 	return document.getElementById(selector);
+				} else {
+					console.warn('not implemented');
+					return null;
+				}
 			}
 		}
 
@@ -194,26 +200,51 @@
 			if ('querySelectorAll' in document) {
 				return document.querySelectorAll(selector);
 			} else {
-				console.warn('not implemented');
-				// getElementsByClassName()
+				var identifier = selector[0];
+				selector = selector.substring(1);
+				if (identifier === '.' && 'getElementsByClassName' in document) {
+					return document.getElementsByClassName(selector);
+				} else {
+					console.warn('not implemented');
+					return null;
+				}
 			}
 		}
 
 		// Add a class to an element
 		function addClass(element, newClass) {
-			if ('classList' in element) {
+			if ('classLists' in element) {
 				return element.classList.add(newClass);
 			} else {
-				console.warn('not implemented');
+				var classArray = getClassArray(element);
+				var newClassArray = [];
+				var exsists = false;
+				for (var i = 0; i < classArray.length; i++) {
+					newClassArray.push(classArray[i]);
+					if (newClass === classArray[i]) {
+						exsists = true;
+					}
+				}
+				if (!exsists) {
+					newClassArray.push(newClass);
+				}
+				element.className = classArrayToString(newClassArray);
 			}
 		}
 
 		// Remove a class to an element
 		function removeClass(element, newClass) {
-			if ('classList' in element) {
+			if ('classLists' in element) {
 				return element.classList.remove(newClass);
 			} else {
-				console.warn('not implemented');
+				var classArray = getClassArray(element);
+				var newClassArray = [];
+				for (var i = 0; i < classArray.length; i++) {
+					if (classArray[i] !== newClass) {
+						newClassArray.push(classArray[i]);
+					}
+				}
+				element.className = classArrayToString(newClassArray);
 			}
 		}
 
@@ -222,10 +253,39 @@
 			if ('classList' in element) {
 				return element.classList.toggle(newClass);
 			} else {
-				console.warn('not implemented');
+				if (containsClass(element, newClass)) {
+					removeClass(element, newClass);
+				} else {
+					addClass(element, newClass);
+				}
 			}
-			// if has class...
-			// Add or remove..
+		}
+
+		// Test is class is available
+		function containsClass(element, newClass) {
+			if ('classList' in element) {
+				return element.classList.contains(newClass);
+			} else {
+				var classArray = getClassArray(element);
+				for (var i = 0; i < classArray.length; i++) {
+					if (classArray[i] === newClass) {
+						return true;
+					}
+				}
+				return false;
+			}
+		}
+
+		// Parse the className into an array
+		function getClassArray(element) {
+			return element.className.split(' ');
+		}
+
+		// Parse the classArray into a className string
+		function classArrayToString(classArray) {
+			var string = classArray.join();
+			string = string.replace(',', ' ');
+			return string;
 		}
 
 		// Add an event to an element
