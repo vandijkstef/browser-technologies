@@ -156,7 +156,6 @@
 		// Make the FAQ interactive
 		function SetFaq(selector) {
 			var faqOuter = getElement(selector);
-			console.log(containsClass(faqOuter, 'no-js'));
 			if (faqOuter !== null) {
 				removeClass(faqOuter, 'no-js');
 				addClass(faqOuter, 'faq-interactive');

@@ -7,6 +7,64 @@
 	</head>
 	<body>
 		<h1>Picture picker</h1>
+		<form action="/opdracht2/picturepicker.html">
+			<div class="picker">
+				<div class="preview">
+					<img src="noimg.png" alt="">
+				</div>
+				<div class="imgroll">
+					<div>
+						<input type="radio" id="0" value="0" name="picture">
+						<label for="0">
+							<img src="http://placeimg.com/640/480/animals" alt="">
+						</label>
+					</div>
+					<div>
+						<input type="radio" id="1" value="1" name="picture">
+						<label for="1">
+							<img src="http://placeimg.com/640/480/any" alt="">
+						</label>
+					</div>
+					<div>
+						<input type="radio" id="2" value="2" name="picture">
+						<label for="2">
+							<img src="http://placeimg.com/640/480/architecture" alt="">
+						</label>
+					</div>
+					<div>
+						<input type="radio" id="3" value="3" name="picture">
+						<label for="3">
+							<img src="http://placeimg.com/640/480/nature" alt="">
+						</label>
+					</div>
+					<div>
+						<input type="radio" id="4" value="4" name="picture">
+						<label for="4">
+							<img src="http://placeimg.com/640/480/people" alt="">
+						</label>
+					</div>
+					<div>
+						<input type="radio" id="5" value="5" name="picture">
+						<label for="5">
+							<img src="http://placeimg.com/640/480/tech" alt="">
+						</label>
+					</div>
+					<div>
+						<input type="radio" id="6" value="6" name="picture">
+						<label for="6">
+							<img src="http://placeimg.com/640/480/any/sepia" alt="">
+						</label>
+					</div>
+					<div>
+						<input type="radio" id="7" value="7" name="picture">
+						<label for="7">
+							<img src="http://placeimg.com/640/480/any/greyscale" alt="">
+						</label>
+					</div>
+				</div>
+				<input type="submit" value="Opslaan">
+			</div>
+		</form>
 	</body>
 	<style>
 		:root {
@@ -21,6 +79,7 @@
 		* {
 			box-sizing: border-box;
 		}
+
 		body {
 			font-size: 1.2em;
 			font-family: Ubuntu, Arial, Helvetica, sans-serif;
@@ -28,22 +87,177 @@
 			background-color: var(--light);	
 		}
 
+		.picker {
+			background-color: #CBDBD7;
+			background-color: var(--accentLight);
+		}
+
+		.preview {
+			display: none;
+		}
+		.picker-interactive .preview {
+			display: block;
+		}
+
+		@supports (display: flex) {
+			.imgroll {
+				display: flex;
+				overflow: hidden;
+				overflow-x: scroll;
+			}
+		}
+		input[type=radio] {
+			float: left;
+			margin-bottom: -2em;
+			margin-left: .5em;
+			z-index: 99;
+			position: relative;
+		}
+
+		.imgroll img {
+			margin-right: 2em;
+			max-height: 6em;
+		}
+
 		@supports (display:block) { /* Will work in every browser but IE */
 			
 		}
 
 	</style>
-	<!-- Disable folding on old IE versions -->
-	<!--[if lte IE 8]>
-	<style>
-		body {
-			background-color: #CBDBD7; // Test line to know we are in LTE8 mode
-		}
-	</style>
-	<![endif]-->
 	<script>
 		window.addEventListener('DOMContentLoaded', function() {
-			
+			SetPicker('.picker');
 		});
+		
+		function SetPicker(selector) {
+			var picker = getElement(selector);
+			if (picker !== null) {
+				addClass(picker, 'picker-interactive');
+			}
+		}
+
+
+
+		// Get an element from the DOM
+		function getElement(selector) {
+			if ('querySelector' in document) {
+				return document.querySelector(selector);
+			} else {
+				var identifier = selector[0];
+				selector = selector.substring(1);
+				if (identifier === '.' && 'getElementsByClassName' in document) {
+					return document.getElementsByClassName(selector)[0];
+				} else if (identifier === '#' && 'getElementById' in document) {
+				 	return document.getElementById(selector);
+				} else {
+					console.warn('not implemented');
+					return null;
+				}
+			}
+		}
+
+		// Get elements from the DOM
+		function getElements(selector) {
+			if ('querySelectorAll' in document) {
+				return document.querySelectorAll(selector);
+			} else {
+				var identifier = selector[0];
+				selector = selector.substring(1);
+				if (identifier === '.' && 'getElementsByClassName' in document) {
+					return document.getElementsByClassName(selector);
+				} else {
+					console.warn('not implemented');
+					return null;
+				}
+			}
+		}
+
+		// Add a class to an element
+		function addClass(element, newClass) {
+			if ('classLists' in element) {
+				return element.classList.add(newClass);
+			} else {
+				var classArray = getClassArray(element);
+				var newClassArray = [];
+				var exsists = false;
+				for (var i = 0; i < classArray.length; i++) {
+					newClassArray.push(classArray[i]);
+					if (newClass === classArray[i]) {
+						exsists = true;
+					}
+				}
+				if (!exsists) {
+					newClassArray.push(newClass);
+				}
+				element.className = classArrayToString(newClassArray);
+			}
+		}
+
+		// Remove a class to an element
+		function removeClass(element, newClass) {
+			if ('classLists' in element) {
+				return element.classList.remove(newClass);
+			} else {
+				var classArray = getClassArray(element);
+				var newClassArray = [];
+				for (var i = 0; i < classArray.length; i++) {
+					if (classArray[i] !== newClass) {
+						newClassArray.push(classArray[i]);
+					}
+				}
+				element.className = classArrayToString(newClassArray);
+			}
+		}
+
+		// Toggle a class to an element
+		function toggleClass(element, newClass) {
+			if ('classList' in element) {
+				return element.classList.toggle(newClass);
+			} else {
+				if (containsClass(element, newClass)) {
+					removeClass(element, newClass);
+				} else {
+					addClass(element, newClass);
+				}
+			}
+		}
+
+		// Test is class is available
+		function containsClass(element, newClass) {
+			if ('classList' in element) {
+				return element.classList.contains(newClass);
+			} else {
+				var classArray = getClassArray(element);
+				for (var i = 0; i < classArray.length; i++) {
+					if (classArray[i] === newClass) {
+						return true;
+					}
+				}
+				return false;
+			}
+		}
+
+		// Parse the className into an array
+		function getClassArray(element) {
+			return element.className.split(' ');
+		}
+
+		// Parse the classArray into a className string
+		function classArrayToString(classArray) {
+			var string = classArray.join();
+			string = string.replace(',', ' ');
+			return string;
+		}
+
+		// Add an event to an element
+		function AddEvent(element, event) {
+			if ('addEventListener' in element) {
+				element.addEventListener('click', event);
+			} else if ('onclick' in element) {
+				element.onclick = event;
+			} else {
+				console.warn('not implented');
+			}
+		}
 	</script>
 </html>
