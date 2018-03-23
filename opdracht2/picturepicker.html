@@ -9,56 +9,56 @@
 		<h1>Picture picker</h1>
 		<form action="/opdracht2/picturepicker.html">
 			<div class="picker">
-				<div class="preview">
-					<img src="noimg.png" alt="">
+				<div id="preview">
+					<img id="preview-img" src="noimg.png" alt="">
 				</div>
 				<div class="imgroll">
-					<div>
-						<input type="radio" id="0" value="0" name="picture">
+					<div class="pick-image" id="img-0">
+						<input type="radio" class="radio" id="0" value="0" name="picture">
 						<label for="0">
-							<img src="http://placeimg.com/640/480/animals" alt="">
+							<img class="img-0" src="http://placeimg.com/640/480/animals" alt="">
 						</label>
 					</div>
-					<div>
-						<input type="radio" id="1" value="1" name="picture">
+					<div class="pick-image" id="img-1">
+						<input type="radio" class="radio" id="1" value="1" name="picture">
 						<label for="1">
-							<img src="http://placeimg.com/640/480/any" alt="">
+							<img class="img-1" src="http://placeimg.com/640/480/any" alt="">
 						</label>
 					</div>
-					<div>
-						<input type="radio" id="2" value="2" name="picture">
+					<div class="pick-image" id="img-2">
+						<input type="radio" class="radio" id="2" value="2" name="picture">
 						<label for="2">
-							<img src="http://placeimg.com/640/480/architecture" alt="">
+							<img class="img-2" src="http://placeimg.com/640/480/architecture" alt="">
 						</label>
 					</div>
-					<div>
-						<input type="radio" id="3" value="3" name="picture">
+					<div class="pick-image" id="img-3">
+						<input type="radio" class="radio" id="3" value="3" name="picture">
 						<label for="3">
-							<img src="http://placeimg.com/640/480/nature" alt="">
+							<img class="img-3" src="http://placeimg.com/640/480/nature" alt="">
 						</label>
 					</div>
-					<div>
-						<input type="radio" id="4" value="4" name="picture">
+					<div class="pick-image" id="img-4">
+						<input type="radio" class="radio" id="4" value="4" name="picture">
 						<label for="4">
-							<img src="http://placeimg.com/640/480/people" alt="">
+							<img class="img-4" src="http://placeimg.com/640/480/people" alt="">
 						</label>
 					</div>
-					<div>
-						<input type="radio" id="5" value="5" name="picture">
+					<div class="pick-image" id="img-5">
+						<input type="radio" class="radio" id="5" value="5" name="picture">
 						<label for="5">
-							<img src="http://placeimg.com/640/480/tech" alt="">
+							<img class="img-5" src="http://placeimg.com/640/480/tech" alt="">
 						</label>
 					</div>
-					<div>
-						<input type="radio" id="6" value="6" name="picture">
+					<div class="pick-image" id="img-6">
+						<input type="radio" class="radio" id="6" value="6" name="picture">
 						<label for="6">
-							<img src="http://placeimg.com/640/480/any/sepia" alt="">
+							<img class="img-6" src="http://placeimg.com/640/480/any/sepia" alt="">
 						</label>
 					</div>
-					<div>
-						<input type="radio" id="7" value="7" name="picture">
+					<div class="pick-image" id="img-7">
+						<input type="radio" class="radio" id="7" value="7" name="picture">
 						<label for="7">
-							<img src="http://placeimg.com/640/480/any/greyscale" alt="">
+							<img class="img-7" src="http://placeimg.com/640/480/any/greyscale" alt="">
 						</label>
 					</div>
 				</div>
@@ -92,18 +92,56 @@
 			background-color: var(--accentLight);
 		}
 
-		.preview {
+		#preview {
 			display: none;
 		}
-		.picker-interactive .preview {
+		.picker-interactive #preview {
 			display: block;
 		}
-
+		#preview img {
+			display: block;
+			margin: 0 auto;
+		}
+		.imgroll {
+			clear: both;
+		}
+		.imgroll div {
+			float: left;
+		}
+		input[type=submit] {
+			font-size: 1em;
+			margin-top: 8em;
+			padding: .6em;
+			float: right;
+		}
 		@supports (display: flex) {
 			.imgroll {
 				display: flex;
 				overflow: hidden;
 				overflow-x: scroll;
+			}
+			.imgroll div {
+				float: none;
+			}
+			input[type=radio] {
+				opacity: 0;
+			}
+			input[type=radio] + label {
+				box-sizing: border-box;
+			}
+			input[type=radio] + label img {
+				display: block;
+			}
+			input[type=radio] + label img {
+				border: 5px solid  #CBDBD7;
+				border-color: var(--accentLight);
+			}
+			input[type=radio]:checked + label img {
+				border: 5px solid  #91AAB4;
+				border-color: var(--med);
+			}
+			input[type=submit] {
+				margin-top: .4em;
 			}
 		}
 		input[type=radio] {
@@ -113,6 +151,8 @@
 			z-index: 99;
 			position: relative;
 		}
+
+		
 
 		.imgroll img {
 			margin-right: 2em;
@@ -125,13 +165,20 @@
 
 	</style>
 	<script>
-		window.addEventListener('DOMContentLoaded', function() {
-			SetPicker('.picker');
-		});
+		if ('addEventListener' in window) {
+			window.addEventListener('DOMContentLoaded', function() {
+				SetPicker('.picker');
+			});
+		}
 		
 		function SetPicker(selector) {
 			var picker = getElement(selector);
 			if (picker !== null) {
+				var pickItems = getElements('.pick-image');
+				console.log(pickItems);
+				for (var i = 0; i < pickItems.length; i++) {
+					AddEvent(pickItems[i], HandleClick);
+				}
 				addClass(picker, 'picker-interactive');
 			}
 		}
@@ -257,6 +304,15 @@
 				element.onclick = event;
 			} else {
 				console.warn('not implented');
+			}
+		}
+
+		// Handle Click event
+		function HandleClick(e) {
+			if (e.target.parentElement.id) {
+				var img = getElement('.' + e.target.parentElement.id);
+				var previewImg = getElement('#preview-img');
+				previewImg.src = img.src;
 			}
 		}
 	</script>
