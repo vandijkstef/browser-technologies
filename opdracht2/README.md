@@ -1,3 +1,7 @@
+[Faqcordeon](https://vandijkstef.github.io/browser-technologies/opdracht2/faqcordeon.html)  
+[Picturepicker](https://vandijkstef.github.io/browser-technologies/opdracht2/picturepicker.html)  
+
+
 # Browser Technologies
 //Robuuste, toegankelijke websites leren bouwen … 
 
